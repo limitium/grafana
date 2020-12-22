@@ -11,7 +11,7 @@ export const UserSignup: FC<{}> = () => {
         margin-top: 8px;
       `}
     >
-      <span>New to Grafana?</span>
+      <span>New to Bloomy.Space?</span>
       <LinkButton
         className={css`
           width: 100%;

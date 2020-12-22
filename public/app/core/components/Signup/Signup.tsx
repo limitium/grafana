@@ -75,11 +75,6 @@ const SignupUnconnected: FC<ConnectedProps> = props => {
               })}
             />
           </Field>
-          {!getConfig().autoAssignOrg && (
-            <Field label="Org. name">
-              <Input name="orgName" placeholder="Org. name" ref={register} />
-            </Field>
-          )}
           {getConfig().verifyEmailEnabled && (
             <Field label="Email verification code (sent to your email)">
               <Input name="code" ref={register} placeholder="Code" />
