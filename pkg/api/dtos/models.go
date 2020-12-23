@@ -37,6 +37,7 @@ type CurrentUser struct {
 	OrgRole                    models.RoleType   `json:"orgRole"`
 	IsGrafanaAdmin             bool              `json:"isGrafanaAdmin"`
 	GravatarUrl                string            `json:"gravatarUrl"`
+	Signature                  string            `json:"signature"`
 	Timezone                   string            `json:"timezone"`
 	Locale                     string            `json:"locale"`
 	HelpFlags1                 models.HelpFlags1 `json:"helpFlags1"`
@@ -64,6 +65,15 @@ func GetGravatarUrl(text string) string {
 		log.Warnf("Failed to hash text: %s", err)
 	}
 	return fmt.Sprintf(setting.AppSubUrl+"/avatar/%x", hasher.Sum(nil))
+}
+
+func GetSignature(c *models.ReqContext) string {
+	text := fmt.Sprintf("%d+bloomy+%s+space", c.UserId, c.Created)
+	hasher := md5.New()
+	if _, err := hasher.Write([]byte(strings.ToLower(text))); err != nil {
+		log.Warnf("Failed to hash text: %s", err)
+	}
+	return fmt.Sprintf("%x", hasher.Sum(nil))[:4]
 }
 
 func GetGravatarUrlWithDefault(text string, defaultText string) string {

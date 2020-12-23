@@ -39,11 +39,6 @@ func (bs *UserSetupService) SignUpCompleted(event *events.SignUpCompleted) error
 		return nil
 	}
 
-	err := bs.CopyDatasource(user)
-	if err != nil {
-		return err
-	}
-
 	err2 := bs.AddDummyAdmin(user)
 	if err2 != nil {
 		return err2
@@ -52,6 +47,11 @@ func (bs *UserSetupService) SignUpCompleted(event *events.SignUpCompleted) error
 	err3 := bs.RemoveAdminRole(user)
 	if err3 != nil {
 		return err3
+	}
+
+	err := bs.CopyDatasource(user)
+	if err != nil {
+		return err
 	}
 
 	return nil

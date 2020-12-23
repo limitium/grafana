@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/grafana/grafana/pkg/api/datasource"
 	"github.com/grafana/grafana/pkg/api/pluginproxy"
@@ -10,6 +11,9 @@ import (
 	"github.com/grafana/grafana/pkg/models"
 	"github.com/grafana/grafana/pkg/plugins"
 )
+
+var reValidPath = regexp.MustCompile("^/api/datasources/proxy/\\d+/api/v1/(query|query_range)")
+var reValidQuery = regexp.MustCompile("^([A-Z0-9_]+|sum by\\(__name__\\)\\({u='\\w+'}\\))")
 
 // ProxyDataSourceRequest proxies datasource requests
 func (hs *HTTPServer) ProxyDataSourceRequest(c *models.ReqContext) {
@@ -33,6 +37,10 @@ func (hs *HTTPServer) ProxyDataSourceRequest(c *models.ReqContext) {
 		return
 	}
 
+	if !hs.isValidProxyCall(c, err) {
+		return
+	}
+
 	// macaron does not include trailing slashes when resolving a wildcard path
 	proxyPath := ensureProxyPathTrailingSlash(c.Req.URL.Path, c.Params("*"))
 
@@ -46,6 +54,19 @@ func (hs *HTTPServer) ProxyDataSourceRequest(c *models.ReqContext) {
 		return
 	}
 	proxy.HandleRequest()
+}
+
+func (hs *HTTPServer) isValidProxyCall(c *models.ReqContext, err error) bool {
+	if !reValidPath.MatchString(c.Req.URL.Path) {
+		c.JsonApiErr(404, "Oooops", err)
+		return false
+	}
+	query := c.Req.URL.Query().Get("query")
+	if !reValidQuery.MatchString(query) {
+		c.JsonApiErr(404, "Oooops", err)
+		return false
+	}
+	return true
 }
 
 // ensureProxyPathTrailingSlash Check for a trailing slash in original path and makes

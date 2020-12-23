@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import LRU from 'lru-cache';
 import { Value } from 'slate';
+import { config } from '@grafana/runtime';
 
 import { dateTime, HistoryItem, LanguageProvider } from '@grafana/data';
 import { CompletionItem, CompletionItemGroup, TypeaheadInput, TypeaheadOutput } from '@grafana/ui';
@@ -118,12 +119,19 @@ export default class PromQlLanguageProvider extends LanguageProvider {
     const params = new URLSearchParams({
       start: tRange['start'].toString(),
       end: tRange['end'].toString(),
+      query: `sum by(__name__)({u='${config.bootData.user.signature}'})`,
     });
-    const url = `/api/v1/label/__name__/values?${params.toString()}`;
+    // const url = `/api/v1/label/__name__/values?${params.toString()}`;
+    const url = `/api/v1/query?${params.toString()}`;
 
-    this.metrics = await this.request(url, []);
+    let metrics = await this.request(url, []);
+    this.metrics = _.chain(metrics.result)
+      .map(metric => {
+        return metric.metric.__name__;
+      })
+      .value();
     this.lookupsDisabled = this.metrics.length > this.lookupMetricsThreshold;
-    this.metricsMetadata = fixSummariesMetadata(await this.request('/api/v1/metadata', {}));
+    this.metricsMetadata = fixSummariesMetadata({});
     this.processHistogramMetrics(this.metrics);
 
     return [];

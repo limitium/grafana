@@ -183,6 +183,7 @@ type SignedInUser struct {
 	IsAnonymous    bool
 	HelpFlags1     HelpFlags1
 	LastSeenAt     time.Time
+	Created        time.Time
 	Teams          []int64
 }
 

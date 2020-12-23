@@ -4,6 +4,7 @@ import { MetricFindValue, TimeRange } from '@grafana/data';
 import { PrometheusDatasource } from './datasource';
 import { PromQueryRequest } from './types';
 import { getTimeSrv } from 'app/features/dashboard/services/TimeSrv';
+import { config } from '@grafana/runtime';
 
 export default class PrometheusMetricFindQuery {
   range: TimeRange;
@@ -114,11 +115,17 @@ export default class PrometheusMetricFindQuery {
     const params = new URLSearchParams({
       start: start.toString(),
       end: end.toString(),
+      query: `sum by(__name__)({u='${config.bootData.user.signature}'})`,
     });
-    const url = `/api/v1/label/__name__/values?${params.toString()}`;
+    // const url = `/api/v1/label/__name__/values?${params.toString()}`;
+
+    const url = `/api/v1/query?${params.toString()}`;
 
     return this.datasource.metadataRequest(url).then((result: any) => {
-      return _.chain(result.data.data)
+      return _.chain(result.data.data.result)
+        .map(metric => {
+          return metric.metric.__name__;
+        })
         .filter(metricName => {
           const r = new RegExp(metricFilterPattern);
           return r.test(metricName);
