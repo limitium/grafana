@@ -30,19 +30,10 @@ func init() {
 		Factory:     NewTelegramNotifier,
 		Options: []alerting.NotifierOption{
 			{
-				Label:        "BOT API Token",
-				Element:      alerting.ElementTypeInput,
-				InputType:    alerting.InputTypeText,
-				Placeholder:  "Telegram BOT API Token",
-				PropertyName: "bottoken",
-				Required:     true,
-				Secure:       true,
-			},
-			{
 				Label:        "Chat ID",
 				Element:      alerting.ElementTypeInput,
 				InputType:    alerting.InputTypeText,
-				Description:  "Integer Telegram Chat Identifier",
+				Description:  "Integer Telegram Chat Identifier. Get it with command /getchatid@BloomySpaceBot",
 				PropertyName: "chatid",
 				Required:     true,
 			},
@@ -66,7 +57,7 @@ func NewTelegramNotifier(model *models.AlertNotification) (alerting.Notifier, er
 		return nil, alerting.ValidationError{Reason: "No Settings Supplied"}
 	}
 
-	botToken := model.DecryptedValue("bottoken", model.Settings.Get("bottoken").MustString())
+	botToken := os.Getenv("GF_TELEGRAM_BOT_TOKEN")
 	chatID := model.Settings.Get("chatid").MustString()
 	uploadImage := model.Settings.Get("uploadImage").MustBool()
 
