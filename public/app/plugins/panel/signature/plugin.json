@@ -1,0 +1,17 @@
+{
+  "type": "panel",
+  "name": "User signature",
+  "id": "sb-user-signature",
+  "skipDataQuery": true,
+  "info": {
+    "author": {
+      "name": "limitium",
+      "url": ""
+    },
+    "keywords": [],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    }
+  }
+}

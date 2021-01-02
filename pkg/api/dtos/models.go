@@ -73,7 +73,7 @@ func GetSignature(c *models.ReqContext) string {
 	if _, err := hasher.Write([]byte(strings.ToLower(text))); err != nil {
 		log.Warnf("Failed to hash text: %s", err)
 	}
-	return fmt.Sprintf("%x", hasher.Sum(nil))[:4]
+	return fmt.Sprintf("%x", hasher.Sum(nil))[:6]
 }
 
 func GetGravatarUrlWithDefault(text string, defaultText string) string {
