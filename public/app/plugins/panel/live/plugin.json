@@ -5,7 +5,7 @@
 
   "skipDataQuery": true,
 
-  "state": "alpha",
+  "hideFromList": true,
 
   "info": {
     "author": {

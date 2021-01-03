@@ -3,6 +3,8 @@
   "name": "Logs",
   "id": "logs",
 
+  "hideFromList": true,
+
   "info": {
     "author": {
       "name": "Grafana Labs",
