@@ -13,7 +13,7 @@ import (
 )
 
 var reValidPath = regexp.MustCompile("^/api/datasources/proxy/\\d+/api/v1/(query|query_range)")
-var reValidQuery = regexp.MustCompile("^([A-Z0-9_]+|sum by\\(__name__\\)\\({u='\\w+'}\\))")
+var reValidQuery = regexp.MustCompile("^([a-zA-Z0-9_]+|{__name__=~'\\w+\\.\\*'})")
 
 // ProxyDataSourceRequest proxies datasource requests
 func (hs *HTTPServer) ProxyDataSourceRequest(c *models.ReqContext) {

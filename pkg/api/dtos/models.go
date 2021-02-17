@@ -3,6 +3,7 @@ package dtos
 import (
 	"crypto/md5"
 	"fmt"
+	"hash/fnv"
 	"regexp"
 	"strings"
 
@@ -69,11 +70,11 @@ func GetGravatarUrl(text string) string {
 
 func GetSignature(c *models.ReqContext) string {
 	text := fmt.Sprintf("%d+bloomy+%s+space", c.UserId, c.Created)
-	hasher := md5.New()
+	hasher := fnv.New32a()
 	if _, err := hasher.Write([]byte(strings.ToLower(text))); err != nil {
 		log.Warnf("Failed to hash text: %s", err)
 	}
-	return fmt.Sprintf("%x", hasher.Sum(nil))[:6]
+	return fmt.Sprintf("%x", 0xA00000|hasher.Sum32()&0xFFFFFF)
 }
 
 func GetGravatarUrlWithDefault(text string, defaultText string) string {

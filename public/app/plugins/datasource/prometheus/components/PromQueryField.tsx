@@ -67,10 +67,10 @@ export function groupMetricsByPrefix(metrics: string[], metadata?: PromMetricsMe
   const delimiter = '_';
   const metricsOptions = _.chain(metrics)
     .filter((metric: string) => !ruleRegex.test(metric))
-    .groupBy((metric: string) => metric.split(delimiter)[0])
+    .groupBy((metric: string) => metric.split(delimiter)[1])
     .map(
       (metricsForPrefix: string[], prefix: string): CascaderOption => {
-        const prefixIsMetric = metricsForPrefix.length === 1 && metricsForPrefix[0] === prefix;
+        const prefixIsMetric = metricsForPrefix.length === 1 && metricsForPrefix[1] === prefix;
         const children = prefixIsMetric ? [] : metricsForPrefix.sort().map(m => addMetricsMetadata(m, metadata));
         return {
           children,

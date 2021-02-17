@@ -115,7 +115,7 @@ export default class PrometheusMetricFindQuery {
     const params = new URLSearchParams({
       start: start.toString(),
       end: end.toString(),
-      query: `sum by(__name__)({u='${config.bootData.user.signature}'})`,
+      query: `{__name__=~'${config.bootData.user.signature}.*'}`,
     });
     // const url = `/api/v1/label/__name__/values?${params.toString()}`;
 
