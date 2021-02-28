@@ -1,59 +1,96 @@
 {
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 66,
   "links": [],
   "panels": [
     {
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 3,
+        "h": 13,
         "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "title": "",
-      "transparent": false,
       "type": "welcome"
     },
     {
       "datasource": null,
-      "folderId": 0,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 15,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 13
       },
-      "headings": true,
       "id": 3,
-      "limit": 30,
       "links": [],
-      "options": {},
-      "query": "",
-      "recent": true,
-      "search": false,
-      "starred": true,
+      "options": {
+        "folderId": 0,
+        "maxItems": 30,
+        "query": "",
+        "showHeadings": true,
+        "showRecentlyViewed": true,
+        "showSearch": false,
+        "showStarred": true,
+        "tags": []
+      },
+      "pluginVersion": "7.4.0-pre",
       "tags": [],
       "title": "Dashboards",
       "type": "dashlist"
     },
     {
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 15,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 13
       },
-      "id": 4,
-      "links": [],
-      "options": {
-        "feedUrl": "https://grafana.com/blog/news.xml"
-      },
-      "title": "Latest from the blog",
-      "type": "news"
+      "id": 5,
+      "pluginVersion": "7.4.0-pre",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Panel Title",
+      "type": "sb-user-signature"
     }
   ],
-  "schemaVersion": 22,
+  "schemaVersion": 27,
+  "style": "dark",
   "tags": [],
   "templating": {
     "list": []
