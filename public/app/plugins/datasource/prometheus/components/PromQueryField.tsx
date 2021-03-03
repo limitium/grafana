@@ -41,7 +41,14 @@ function getChooserText(metricsLookupDisabled: boolean, hasSyntax: boolean, metr
 }
 
 function addMetricsMetadata(metric: string, metadata?: PromMetricsMetadata): CascaderOption {
-  const option: CascaderOption = { label: metric, value: metric };
+  const delimiter = '_';
+  const option: CascaderOption = {
+    label: metric
+      .split(delimiter)
+      .slice(2)
+      .join(' '),
+    value: metric,
+  };
   if (metadata && metadata[metric]) {
     const { type = '', help } = metadata[metric][0];
     option.title = [metric, type.toUpperCase(), help].join('\n');
